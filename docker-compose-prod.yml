@@ -12,37 +12,34 @@ services:
       MONGO_INITDB_DATABASE: ${MONGO_DATABASE}
     volumes:
       - ./mongoUser.js:/docker-entrypoint-initdb.d/001_users.js:ro
-      - ./mymongodb:/data/db
+      - /mnt/${volume}/mongoDB:/data/db
     ports:
       - '27017:27017'
   api:
     env_file: .env
     build:
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
       context: ./api
     links:
       - mongo
     depends_on:
       - mongo
     volumes:
-      - ./api/src:/app/src
-      - ./api/node_modules:/app/node/modules
+      - /app/node_modules
+      - ./api:/app
     environment:
       - MONGO_USER=${MONGO_USER}
       - MONGO_PASSWORD=${MONGO_PASSWORD}
       - MONGO_DATABASE=${MONGO_DATABASE}
   client:
-    container_name: dev-client
     build:
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
       context: ./client
+    depends_on:
+      - api
     volumes:
-    - './client:/app'
-    - '/app/node_modules'
-    ports:
-      - '3000:3000'
-    environment:
-      - NODE_ENV=development
+      - /app/node_modules
+      - ./client:/app
   nginx:
     restart: always
     depends_on:
