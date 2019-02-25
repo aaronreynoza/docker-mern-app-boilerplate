@@ -57,7 +57,7 @@ class App extends Component {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <div>
-            <p>Post Algo: </p>
+            <p>Post something: </p>
             <input type="text" onChange={this.onChange} value={this.state.val}></input>
             <hr />
             <button onClick={this.onSubmit}>Send!</button>
