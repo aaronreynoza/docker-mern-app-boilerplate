@@ -12,7 +12,7 @@ services:
       MONGO_INITDB_DATABASE: ${MONGO_DATABASE}
     volumes:
       - ./mongoUser.js:/docker-entrypoint-initdb.d/001_users.js:ro
-      - /mnt/${VOLUME}/mongoDB:/data/db
+      - ./database/mongoDB:/data/db
     ports:
       - '27017:27017'
   api:
