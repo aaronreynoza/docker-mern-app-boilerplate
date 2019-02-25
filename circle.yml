@@ -19,7 +19,7 @@ jobs:
       - image: circleci/node:10.5.0
     steps:
       - checkout
-      - run: ssh $DROPLET_USER@$DROPLET_IP "./deploy_project.sh"
+      - run: ssh -oStrictHostKeyChecking=no -v $DROPLET_USER@$DROPLET_IP "sh ./start.sh"
 
 workflows:
   version: 2
